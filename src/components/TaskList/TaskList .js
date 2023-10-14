@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import './TaskList.css';
 import Task from '../Task/Task ';
 import Footer from '../Footer/Footer';
-
-class TaskList extends React.Component {
+class TaskList extends Component {
+  static defaultProps = {
+    tasks: [],
+    onDeleted: () => {},
+    onEdited: () => {},
+  };
+  static propTypes = {
+    createdDate: PropTypes.string,
+    children: PropTypes.string,
+    onDeleted: PropTypes.func,
+    id: PropTypes.string,
+    onCheckboxChange: PropTypes.func,
+  };
   countCalculate() {
     return this.props.tasks.reduce((count, task) => {
       if (!task.completed) {

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './App.css';
 import NewTaskForm from './components/NewTaskForm/NewTaskForm';
 
-class App extends React.Component {
+class App extends Component {
   render() {
     return (
       <>

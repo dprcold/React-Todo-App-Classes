@@ -1,9 +1,17 @@
-import React from 'react';
-import './TasksFilter.css';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class TasksFilter extends React.Component {
+import './TasksFilter.css';
+class TasksFilter extends Component {
   state = {
     defaultStyle: 'All',
+  };
+
+  static defaultProps = {
+    deleteCompletedTask: () => {},
+  };
+  static propTypes = {
+    deleteCompletedTask: PropTypes.func,
   };
 
   buttons = [

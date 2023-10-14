@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import './Task.css';
 
-class Task extends React.Component {
+class Task extends Component {
   state = {
     checked: this.props.completed,
     isEditing: false,
     inputText: this.props.children,
+  };
+
+  static defaultProps = {
+    createdDate: new Date().toISOString(),
+    children: '',
+    onDeleted: () => {},
+    id: Math.random(),
+  };
+
+  static propTypes = {
+    createdDate: PropTypes.string,
+    children: PropTypes.string,
+    onDeleted: PropTypes.func,
+    id: PropTypes.string,
+    onCheckboxChange: PropTypes.func,
   };
 
   handleInputChange = (event) => {

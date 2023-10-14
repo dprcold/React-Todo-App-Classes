@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import './NewTaskForm.css';
 
 import TaskList from '../TaskList/TaskList ';
 
-class NewTaskForm extends React.Component {
+class NewTaskForm extends Component {
   state = {
     task: '',
     taskItem: localStorage.getItem('taskItem') ? JSON.parse(localStorage.getItem('taskItem')) : [],

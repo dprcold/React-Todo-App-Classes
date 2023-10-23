@@ -5,7 +5,7 @@ import './NewTaskForm.css';
 
 import TaskList from '../TaskList/TaskList ';
 
-class NewTaskForm extends Component {
+export default class NewTaskForm extends Component {
   state = {
     task: '',
     taskItem: localStorage.getItem('taskItem') ? JSON.parse(localStorage.getItem('taskItem')) : [],
@@ -28,9 +28,11 @@ class NewTaskForm extends Component {
   };
 
   componentDidUpdate() {
-    localStorage.setItem('taskItem', JSON.stringify(this.state.taskItem));
+    const data = JSON.parse(localStorage.getItem('taskItem') || []);
+    if (JSON.stringify(data) !== JSON.stringify(this.state.taskItem)) {
+      localStorage.setItem('taskItem', JSON.stringify(this.state.taskItem));
+    }
   }
-
   handleDeleted = (id) => {
     this.setState((prevState) => ({
       taskItem: prevState.taskItem.filter((task) => task.id !== id),
@@ -78,6 +80,9 @@ class NewTaskForm extends Component {
     this.setState({ filter });
   };
 
+  activeCounter = () => {
+    return this.filteredTasks().filter((task) => !task.completed).length;
+  };
   render() {
     return (
       <>
@@ -96,10 +101,9 @@ class NewTaskForm extends Component {
           onCheckboxChange={this.handleCheckboxChange}
           setFilter={this.setFilter}
           filteredTasks={this.filteredTasks}
+          activeCounterValue={this.activeCounter()}
         />
       </>
     );
   }
 }
-
-export default NewTaskForm;

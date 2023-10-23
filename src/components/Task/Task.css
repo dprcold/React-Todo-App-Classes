@@ -127,6 +127,7 @@
 
 .todo-list li .icon-destroy {
   right: 10px;
+  top: 65px;
 }
 
 .todo-list li .icon-destroy:after {

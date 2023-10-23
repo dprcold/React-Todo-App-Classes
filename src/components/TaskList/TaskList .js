@@ -4,20 +4,9 @@ import PropTypes from 'prop-types';
 import './TaskList.css';
 import Task from '../Task/Task ';
 import Footer from '../Footer/Footer';
-class TaskList extends Component {
-  static defaultProps = {
-    tasks: [],
-    onDeleted: () => {},
-    onEdited: () => {},
-  };
-  static propTypes = {
-    createdDate: PropTypes.string,
-    children: PropTypes.string,
-    onDeleted: PropTypes.func,
-    id: PropTypes.string,
-    onCheckboxChange: PropTypes.func,
-  };
-  countCalculate() {
+
+export default class TaskList extends Component {
+  countElem() {
     return this.props.tasks.reduce((count, task) => {
       if (!task.completed) {
         return count + 1;
@@ -26,8 +15,17 @@ class TaskList extends Component {
     }, 0);
   }
   render() {
-    const { tasks, onDeleted, onEdited, deleteCompletedTask, onCheckboxChange, filteredTasks, setFilter } = this.props;
-    const count = this.countCalculate();
+    const {
+      tasks,
+      onDeleted,
+      onEdited,
+      deleteCompletedTask,
+      onCheckboxChange,
+      filteredTasks,
+      setFilter,
+      activeCounterValue,
+    } = this.props;
+    const count = this.countElem();
     return (
       <>
         <ul className="todo-list">
@@ -53,10 +51,22 @@ class TaskList extends Component {
           deleteCompletedTask={deleteCompletedTask}
           setFilter={setFilter}
           filteredTasks={filteredTasks}
+          activeCounterValue={activeCounterValue}
         />
       </>
     );
   }
 }
 
-export default TaskList;
+TaskList.defaultProps = {
+  tasks: [],
+  onDeleted: () => {},
+  onEdited: () => {},
+};
+TaskList.propTypes = {
+  createdDate: PropTypes.string,
+  children: PropTypes.string,
+  onDeleted: PropTypes.func,
+  id: PropTypes.string,
+  onCheckboxChange: PropTypes.func,
+};

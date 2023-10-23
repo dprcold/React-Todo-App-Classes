@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './TasksFilter.css';
-class TasksFilter extends Component {
+export default class TasksFilter extends Component {
   state = {
     defaultStyle: 'All',
-  };
-
-  static defaultProps = {
-    deleteCompletedTask: () => {},
-  };
-  static propTypes = {
-    deleteCompletedTask: PropTypes.func,
   };
 
   buttons = [
@@ -50,4 +43,9 @@ class TasksFilter extends Component {
   }
 }
 
-export default TasksFilter;
+TasksFilter.defaultProps = {
+  deleteCompletedTask: () => {},
+};
+TasksFilter.propTypes = {
+  deleteCompletedTask: PropTypes.func,
+};

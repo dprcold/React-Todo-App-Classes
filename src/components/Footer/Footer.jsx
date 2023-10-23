@@ -3,27 +3,16 @@ import PropTypes from 'prop-types';
 
 import './Footer.css';
 import TasksFilter from '../TasksFilter/TasksFilter';
-
-class Footer extends Component {
-  static defaultProps = {
-    tasks: [],
-    count: 0,
-    deleteCompletedTask: [],
-    setFilter: 'All',
-    filteredTasks: 'All',
-  };
-  static propTypes = {
-    tasks: PropTypes.array,
-    count: PropTypes.number,
-    deleteCompletedTask: PropTypes.func,
-    setFilter: PropTypes.func,
-    filteredTasks: PropTypes.func,
-  };
+export default class Footer extends Component {
   render() {
-    const { tasks, count, deleteCompletedTask, setFilter, filteredTasks } = this.props;
+    const { tasks, count, deleteCompletedTask, setFilter, filteredTasks, activeCounterValue } = this.props;
     return (
       <footer className="footer">
-        <span className="todo-count">{count} items left</span>
+        {!activeCounterValue ? (
+          <span className="todo-count">0 items left</span>
+        ) : (
+          <span className="todo-count">{count} items left</span>
+        )}
         <TasksFilter
           tasks={tasks}
           deleteCompletedTask={deleteCompletedTask}
@@ -34,5 +23,18 @@ class Footer extends Component {
     );
   }
 }
+Footer.defaultProps = {
+  tasks: [],
+  count: 0,
+  deleteCompletedTask: [],
+  setFilter: 'All',
+  filteredTasks: 'All',
+};
 
-export default Footer;
+Footer.propTypes = {
+  tasks: PropTypes.array,
+  count: PropTypes.number,
+  deleteCompletedTask: PropTypes.func,
+  setFilter: PropTypes.func,
+  filteredTasks: PropTypes.func,
+};

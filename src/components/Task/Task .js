@@ -3,27 +3,11 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import './Task.css';
-
-class Task extends Component {
+export default class Task extends Component {
   state = {
     checked: this.props.completed,
     isEditing: false,
     inputText: this.props.children,
-  };
-
-  static defaultProps = {
-    createdDate: new Date().toISOString(),
-    children: '',
-    onDeleted: () => {},
-    id: Math.random(),
-  };
-
-  static propTypes = {
-    createdDate: PropTypes.string,
-    children: PropTypes.string,
-    onDeleted: PropTypes.func,
-    id: PropTypes.string,
-    onCheckboxChange: PropTypes.func,
   };
 
   handleInputChange = (event) => {
@@ -89,4 +73,17 @@ class Task extends Component {
   }
 }
 
-export default Task;
+Task.defaultProps = {
+  createdDate: new Date().toISOString(),
+  children: '',
+  onDeleted: () => {},
+  id: Math.random(),
+};
+
+Task.propTypes = {
+  createdDate: PropTypes.string,
+  children: PropTypes.string,
+  onDeleted: PropTypes.func,
+  id: PropTypes.string,
+  onCheckboxChange: PropTypes.func,
+};

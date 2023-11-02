@@ -8,9 +8,16 @@ import TaskList from '../TaskList/TaskList ';
 export default class NewTaskForm extends Component {
   state = {
     task: '',
-    taskItem: localStorage.getItem('taskItem') ? JSON.parse(localStorage.getItem('taskItem')) : [],
+    taskItem: [],
     filter: 'All',
   };
+
+  componentDidMount() {
+    const storedData = localStorage.getItem('taskItem');
+    const taskItem = storedData ? JSON.parse(storedData) : [];
+    this.setState({ taskItem });
+  }
+
   inputChange = (event) => {
     const newTask = event.target.value;
     if ((event.key === 'Enter' || event.keyCode === 13) && this.state.task.trim() !== '') {
@@ -28,10 +35,8 @@ export default class NewTaskForm extends Component {
   };
 
   componentDidUpdate() {
-    const data = JSON.parse(localStorage.getItem('taskItem') || []);
-    if (JSON.stringify(data) !== JSON.stringify(this.state.taskItem)) {
-      localStorage.setItem('taskItem', JSON.stringify(this.state.taskItem));
-    }
+    const data = JSON.stringify(this.state.taskItem);
+    localStorage.setItem('taskItem', data);
   }
   handleDeleted = (id) => {
     this.setState((prevState) => ({

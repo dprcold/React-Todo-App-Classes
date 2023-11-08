@@ -39,6 +39,8 @@ export default class TaskList extends Component {
                   onDeleted={onDeleted}
                   onEdited={onEdited}
                   onCheckboxChange={onCheckboxChange}
+                  minutes={task.minutes}
+                  seconds={task.seconds}
                 >
                   {task.taskText}
                 </Task>

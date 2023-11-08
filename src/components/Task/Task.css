@@ -94,7 +94,7 @@
 
 .todo-list li label .description {
   margin: 16px 16px 16px 60px;
-  width: 214px;
+  width: 121px;
   word-break: break-all;
   display: block;
   line-height: 1.2;
@@ -158,4 +158,18 @@
 .todo-list li.completed label .description {
   color: #cdcdcd;
   text-decoration: line-through;
+}
+.time-task-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+.button-start-timer {
+  cursor: pointer;
+  color: white;
+}
+.button-pause-timer {
+  cursor: pointer;
+  color: white;
 }

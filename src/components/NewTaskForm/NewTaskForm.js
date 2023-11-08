@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import './NewTaskForm.css';
-
+import TimerTask from '../TimerTask/TimerTask';
 import TaskList from '../TaskList/TaskList ';
 
 export default class NewTaskForm extends Component {
   state = {
     task: '',
-    taskItem: localStorage.getItem('taskItem') ? JSON.parse(localStorage.getItem('taskItem')) : [],
+    taskItem: [],
     filter: 'All',
+    minutes: 0,
+    seconds: 0,
   };
+  componentDidMount() {
+    const storedData = localStorage.getItem('taskItem');
+    const taskItem = storedData ? JSON.parse(storedData) : [];
+    this.setState({ taskItem });
+  }
   inputChange = (event) => {
     const newTask = event.target.value;
     if ((event.key === 'Enter' || event.keyCode === 13) && this.state.task.trim() !== '') {
@@ -19,6 +26,8 @@ export default class NewTaskForm extends Component {
         createdDate: new Date().toISOString(),
         completed: false,
         id: uuidv4(),
+        minutes: this.state.minutes,
+        seconds: this.state.seconds,
       };
       this.setState((prevState) => ({
         task: '',
@@ -27,9 +36,8 @@ export default class NewTaskForm extends Component {
     }
   };
 
-  componentDidUpdate() {
-    const data = JSON.parse(localStorage.getItem('taskItem') || []);
-    if (JSON.stringify(data) !== JSON.stringify(this.state.taskItem)) {
+  componentDidUpdate(prevState) {
+    if (JSON.stringify(prevState.taskItem) !== JSON.stringify(this.state.taskItem)) {
       localStorage.setItem('taskItem', JSON.stringify(this.state.taskItem));
     }
   }
@@ -92,6 +100,12 @@ export default class NewTaskForm extends Component {
           value={this.state.task}
           onChange={(event) => this.setState({ task: event.target.value })}
           onKeyDown={this.inputChange}
+        />
+        <TimerTask
+          onMinutesChange={(minutes) => this.setState({ minutes })}
+          onSecondsChange={(seconds) => this.setState({ seconds })}
+          minutes={this.state.minutes}
+          seconds={this.state.seconds}
         />
         <TaskList
           tasks={this.state.taskItem}

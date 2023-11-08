@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import './Task.css';
+
 export default class Task extends Component {
   state = {
     checked: this.props.completed,
     isEditing: false,
     inputText: this.props.children,
+    minutes: this.props.minutes,
+    seconds: this.props.seconds,
+    isTimerRunning: false,
   };
+
+  timerInterval = null;
 
   handleInputChange = (event) => {
     this.setState({ inputText: event.target.value });
@@ -26,6 +32,48 @@ export default class Task extends Component {
 
   handleClick = () => {
     this.setState({ checked: !this.state.checked });
+  };
+
+  formatNumber = (number) => {
+    return number < 10 ? `0${number}` : number.toString();
+  };
+
+  updateLocalStorageForTask = (taskId, minutes, seconds) => {
+    const taskDataInLocalStorage = JSON.parse(localStorage.getItem('taskItem')) || [];
+    const taskToUpdate = taskDataInLocalStorage.find((task) => task.id === taskId);
+    if (taskToUpdate) {
+      taskToUpdate.minutes = minutes;
+      taskToUpdate.seconds = seconds;
+      localStorage.setItem('taskItem', JSON.stringify(taskDataInLocalStorage));
+    }
+  };
+
+  updateTimer = () => {
+    const { minutes, seconds, isTimerRunning } = this.state;
+    if (isTimerRunning) {
+      if (minutes === 0 && seconds === 0) {
+        this.stopTimer();
+      } else {
+        if (seconds === 0) {
+          this.setState({ minutes: minutes - 1, seconds: 59 });
+        } else {
+          this.setState({ seconds: seconds - 1 });
+        }
+      }
+    }
+    this.updateLocalStorageForTask(this.props.id, this.state.minutes, this.state.seconds);
+  };
+
+  startTimer = () => {
+    this.setState({ isTimerRunning: true }, () => {
+      this.timerInterval = setInterval(this.updateTimer, 1000);
+    });
+  };
+
+  stopTimer = () => {
+    this.setState({ isTimerRunning: false }, () => {
+      clearInterval(this.timerInterval);
+    });
   };
 
   render() {
@@ -51,6 +99,33 @@ export default class Task extends Component {
           ) : (
             <>
               <span className={taskTextClasses.join(' ')}>{children}</span>
+              <div className="time-task-wrapper">
+                <span>
+                  {this.formatNumber(this.state.minutes)}:{this.formatNumber(this.state.seconds)}
+                </span>
+                <button
+                  className="button-start-timer"
+                  onClick={(event) => {
+                    if (!this.state.isTimerRunning) {
+                      this.startTimer();
+                    }
+                    event.stopPropagation();
+                  }}
+                >
+                  ▶️
+                </button>
+                <button
+                  className="button-pause-timer"
+                  onClick={(event) => {
+                    if (this.state.isTimerRunning) {
+                      this.stopTimer();
+                    }
+                    event.stopPropagation();
+                  }}
+                >
+                  ⏸️
+                </button>
+              </div>
               <span className="created">created {date} ago</span>
 
               <input
@@ -60,6 +135,9 @@ export default class Task extends Component {
                 onChange={() => {
                   this.setState({ checked: !this.state.checked });
                   onCheckboxChange(id, !this.state.checked);
+                }}
+                onClick={(event) => {
+                  event.stopPropagation();
                 }}
               />
 

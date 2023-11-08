@@ -5,7 +5,7 @@ import './Footer.css';
 import TasksFilter from '../TasksFilter/TasksFilter';
 export default class Footer extends Component {
   render() {
-    const { tasks, count, deleteCompletedTask, setFilter, filteredTasks, activeCounterValue } = this.props;
+    const { tasks, count, setFilter, filteredTasks, activeCounterValue } = this.props;
     return (
       <footer className="footer">
         {!activeCounterValue ? (
@@ -13,12 +13,7 @@ export default class Footer extends Component {
         ) : (
           <span className="todo-count">{count} items left</span>
         )}
-        <TasksFilter
-          tasks={tasks}
-          deleteCompletedTask={deleteCompletedTask}
-          setFilter={setFilter}
-          filteredTasks={filteredTasks}
-        />
+        <TasksFilter tasks={tasks} setFilter={setFilter} filteredTasks={filteredTasks} />
       </footer>
     );
   }
@@ -26,7 +21,6 @@ export default class Footer extends Component {
 Footer.defaultProps = {
   tasks: [],
   count: 0,
-  deleteCompletedTask: [],
   setFilter: 'All',
   filteredTasks: 'All',
 };
@@ -34,7 +28,6 @@ Footer.defaultProps = {
 Footer.propTypes = {
   tasks: PropTypes.array,
   count: PropTypes.number,
-  deleteCompletedTask: PropTypes.func,
   setFilter: PropTypes.func,
   filteredTasks: PropTypes.func,
 };

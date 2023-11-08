@@ -15,16 +15,7 @@ export default class TaskList extends Component {
     }, 0);
   }
   render() {
-    const {
-      tasks,
-      onDeleted,
-      onEdited,
-      deleteCompletedTask,
-      onCheckboxChange,
-      filteredTasks,
-      setFilter,
-      activeCounterValue,
-    } = this.props;
+    const { tasks, onDeleted, onEdited, onCheckboxChange, filteredTasks, setFilter, activeCounterValue } = this.props;
     const count = this.countElem();
     return (
       <>
@@ -48,7 +39,6 @@ export default class TaskList extends Component {
         <Footer
           tasks={tasks}
           count={count}
-          deleteCompletedTask={deleteCompletedTask}
           setFilter={setFilter}
           filteredTasks={filteredTasks}
           activeCounterValue={activeCounterValue}

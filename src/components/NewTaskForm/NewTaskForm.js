@@ -34,9 +34,10 @@ export default class NewTaskForm extends Component {
     }
   };
 
-  componentDidUpdate() {
-    const data = JSON.stringify(this.state.taskItem);
-    localStorage.setItem('taskItem', data);
+  componentDidUpdate(prevState) {
+    if (this.state.taskItem !== prevState.taskItem) {
+      localStorage.setItem('taskItem', JSON.stringify(this.state.taskItem));
+    }
   }
   handleDeleted = (id) => {
     this.setState((prevState) => ({

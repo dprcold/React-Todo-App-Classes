@@ -26,8 +26,8 @@ export default class NewTaskForm extends Component {
         createdDate: new Date().toISOString(),
         completed: false,
         id: uuidv4(),
-        minutes: this.state.minutes,
-        seconds: this.state.seconds,
+        minutes: this.state.minutes || 0,
+        seconds: this.state.seconds || 0,
       };
       this.setState((prevState) => ({
         task: '',

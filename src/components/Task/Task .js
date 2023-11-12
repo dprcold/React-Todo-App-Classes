@@ -62,19 +62,24 @@ export default class Task extends Component {
       }
     }
     this.updateLocalStorageForTask(this.props.id, this.state.minutes, this.state.seconds);
+    this.timerInterval = setTimeout(this.updateTimer, 1000);
+    console.log('tick');
   };
 
   startTimer = () => {
     this.setState({ isTimerRunning: true }, () => {
-      this.timerInterval = setInterval(this.updateTimer, 1000);
+      this.timerInterval = setTimeout(this.updateTimer, 1000);
     });
   };
 
   stopTimer = () => {
     this.setState({ isTimerRunning: false }, () => {
-      clearInterval(this.timerInterval);
+      clearTimeout(this.timerInterval);
     });
   };
+  componentWillUnmount() {
+    clearTimeout(this.timerInterval);
+  }
 
   render() {
     const { createdDate, children, onDeleted, id, onCheckboxChange } = this.props;
@@ -104,17 +109,6 @@ export default class Task extends Component {
                   {this.formatNumber(this.state.minutes)}:{this.formatNumber(this.state.seconds)}
                 </span>
                 <button
-                  className="button-start-timer"
-                  onClick={(event) => {
-                    if (!this.state.isTimerRunning) {
-                      this.startTimer();
-                    }
-                    event.stopPropagation();
-                  }}
-                >
-                  ▶️
-                </button>
-                <button
                   className="button-pause-timer"
                   onClick={(event) => {
                     if (this.state.isTimerRunning) {
@@ -124,6 +118,17 @@ export default class Task extends Component {
                   }}
                 >
                   ⏸️
+                </button>
+                <button
+                  className="button-start-timer"
+                  onClick={(event) => {
+                    if (!this.state.isTimerRunning) {
+                      this.startTimer();
+                    }
+                    event.stopPropagation();
+                  }}
+                >
+                  ▶️
                 </button>
               </div>
               <span className="created">created {date} ago</span>

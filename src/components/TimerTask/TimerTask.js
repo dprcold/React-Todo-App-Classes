@@ -28,9 +28,6 @@ export default class TimerTask extends Component {
   };
 
   render() {
-    const { minutes, seconds } = this.props;
-    const minutesValue = minutes === 0 ? '' : minutes;
-    const secondsValue = seconds === 0 ? '' : seconds;
     return (
       <div className="timer-wrapper">
         <input
@@ -40,9 +37,9 @@ export default class TimerTask extends Component {
           type="number"
           min={0}
           max={59}
-          value={minutesValue}
           onChange={this.handleMinutesChange}
         />
+
         <input
           className="new-todo-form__timer"
           placeholder="Sec"
@@ -50,7 +47,6 @@ export default class TimerTask extends Component {
           type="number"
           min={0}
           max={59}
-          value={secondsValue}
           onChange={this.handleSecondsChange}
         />
       </div>
